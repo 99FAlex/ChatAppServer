@@ -5,6 +5,6 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         TcpServer tcpServer = new TcpServer();
-        tcpServer.start(8002);
+        tcpServer.start(8001);
     }
 }
