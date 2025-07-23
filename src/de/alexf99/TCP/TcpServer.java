@@ -11,6 +11,9 @@ public class TcpServer {
 
 
     public void start(int port) throws IOException {
+        System.out.println("ChatApp server started");
+        System.out.println("Now accepting user");
+
         ServerSocket serverSocket = new ServerSocket(port);
 
 
