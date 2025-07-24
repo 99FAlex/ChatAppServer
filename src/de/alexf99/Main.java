@@ -1,16 +1,22 @@
-import de.alexf99.Colors;
-import de.alexf99.TCP.TcpServer;
+package de.alexf99;
 
+import de.alexf99.TCP.TcpServer;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
+
+    public static void main(String[] args) throws IOException, InterruptedException {
         TcpServer tcpServer = new TcpServer();
         DataInputStream in = new DataInputStream(System.in);
+        File messageFile = new File("messages.txt");
+        messageFile.createNewFile();
 
         int port = 8001;
 
@@ -38,6 +44,7 @@ public class Main {
 
             System.out.println("Enter the port for running the server(default 8001): ");
             String portString = in.readLine();
+            //write new line with \n
             configWriter.write("port=" + portString);
             configWriter.close();
             port = Integer.parseInt(portString);
@@ -46,6 +53,13 @@ public class Main {
         System.out.println("Server starting on port " + port);
 
         tcpServer.start(port);
+        while(true) {
+            queue.take().run();
+        }
+    }
+
+    public static void addMessage(String msg) throws IOException {
+
 
     }
 }
