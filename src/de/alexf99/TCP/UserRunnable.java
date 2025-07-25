@@ -2,6 +2,8 @@ package de.alexf99.TCP;
 
 
 
+import de.alexf99.Colors;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -25,17 +27,15 @@ public class UserRunnable implements Runnable{
     public void run() {
         try {
             TcpServer.clients.put(Thread.currentThread().getName(), clientSocket);
-            OutputStream out = clientSocket.getOutputStream();
-            BufferedReader inReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             InputStream in = clientSocket.getInputStream();
             byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(buffer)) != -1) {
                 String receivedData = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-                System.out.println(username + " || " +receivedData);
                 if (username == null){
                     username = receivedData;
                 }else {
+                    System.out.println(Colors.text_RESET + username + " --> " + receivedData);
                     TcpServer.clients.forEach((name, socket) -> {
                         try {
                             String message = username + " --> " + receivedData;

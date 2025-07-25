@@ -1,5 +1,7 @@
 package de.alexf99.TCP;
 
+import de.alexf99.Colors;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
@@ -22,7 +24,7 @@ public class TcpServer {
                 Socket socket = serverSocket.accept();
                 Thread client = new Thread(new UserRunnable(socket));
                 client.start();
-                System.out.println("client connected");
+                System.out.println(Colors.text_BLUE + "Client connected" + Colors.text_RESET);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

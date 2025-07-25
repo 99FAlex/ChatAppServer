@@ -5,12 +5,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+
 
 
 public class Main {
-    public static final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
 
     public static void main(String[] args) throws IOException, InterruptedException {
         TcpServer tcpServer = new TcpServer();
@@ -44,6 +42,10 @@ public class Main {
 
             System.out.println("Enter the port for running the server(default 8001): ");
             String portString = in.readLine();
+            if (portString.equals("")){
+                portString = "8001";
+            }
+
             //write new line with \n
             configWriter.write("port=" + portString);
             configWriter.close();
@@ -53,9 +55,6 @@ public class Main {
         System.out.println("Server starting on port " + port);
 
         tcpServer.start(port);
-        while(true) {
-            queue.take().run();
-        }
     }
 
     public static void addMessage(String msg) throws IOException {
