@@ -2,6 +2,7 @@ package de.alexf99;
 
 import de.alexf99.TCP.TcpServer;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -62,6 +63,11 @@ public class Main {
             port = Integer.parseInt(portString);
         }
 
+        String urlString = "http://checkip.amazonaws.com/";
+        URL url = new URL(urlString);
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
+            System.out.println("Current ip adress: " + br.readLine());
+        }
         System.out.println("Server starting on port " + port);
 
         CompletableFuture<Void> future = readConsoleAsync();
